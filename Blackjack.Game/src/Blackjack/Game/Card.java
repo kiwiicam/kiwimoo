@@ -30,10 +30,10 @@ public class Card {
         System.out.println(suits[randSuitIndex]);
         
     }
-    public void number(){
+    public int number(){
         rand randGenerator = new rand();
         int randIndex = randGenerator.randNum();
-        System.out.println(cardNum[randIndex]);        
+        return cardNum[randIndex];        
         
     }
 
