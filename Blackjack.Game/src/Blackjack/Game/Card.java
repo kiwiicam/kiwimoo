@@ -36,7 +36,5 @@ public class Card {
         System.out.println(cardNum[randIndex]);        
         
     }
-        
-    
     
 }
