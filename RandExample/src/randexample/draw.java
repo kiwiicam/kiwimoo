@@ -1,16 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package randexample;
 
-/**
- *
- * @author xndmo
- */
 public class draw {
-    
-    public static void draw(int drawnSuitInt, int drawnFaceint, String drawnSuitString, String drawnFaceString) {
+    private int drawnSuitInt;
+    private int drawnFaceInt;
+    private String drawnSuitString;
+    private String drawnFaceString;
+
+    public draw(int drawnSuitInt, int drawnFaceInt) {
+        this.drawnSuitInt = drawnSuitInt;
+        this.drawnFaceInt = drawnFaceInt;
+        this.draw();
+    }
+        
+    public void draw(){
         switch (drawnSuitInt) {
             case 0:
                 drawnSuitString = "Hearts";
