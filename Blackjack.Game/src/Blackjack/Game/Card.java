@@ -24,10 +24,10 @@ public class Card {
     {
         return cardNum;
     }
-    public void suit(){
+    public String suit(){
         rand randSuitGenerator = new rand();
         int randSuitIndex = randSuitGenerator.randSuit();
-        System.out.println(suits[randSuitIndex]);
+        return suits[randSuitIndex];
         
     }
     public int number(){
