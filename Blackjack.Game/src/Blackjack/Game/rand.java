@@ -1,5 +1,4 @@
 package Blackjack.Game;
-import java.util.Random;
 public class rand {
     public int randSuit(){
         int max = 3;
