@@ -33,8 +33,14 @@ public class Blackjack {
 
     public static void main(String[] args) {
         Blackjack game = new Blackjack();
-        game.gameStart();
-        game.Turn();
+        game.bjGame();
+        game.PlayAgain();
+     }
+    public void bjGame()
+    {
+        gameStart();
+        Turn();
+                        
     }
 
     public void gameStart() {
@@ -65,9 +71,41 @@ public class Blackjack {
             suit = suitCard.suit();
             dSuit = dealerSuitCard.suit();
             System.out.println("Your next card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
-            System.out.println("The dealers next card is a " + Dcard.get(a) + " of " + dSuit + " dealers sum: " + Dsum);
-            a++;
+            if (Dsum >= 17) {
+                System.out.println("The Dealer Stood!");
+            } else {
+                System.out.println("The dealers next card is a " + Dcard.get(a) + " of " + dSuit + " dealers sum: " + Dsum);
+                a++;
+            }
+            
             i++;
+            if (sum > 21) {
+                System.out.println("Bust! You lose");
+                
+            } else if (Dsum > 21) {
+                System.out.println("The dealer busted you win!");
+            } else {
+                Turn();
+            }
+
         }
+
     }
+    public void PlayAgain()
+    {
+        System.out.println("Would you like to play again? (Y/N)");
+        Scanner inp = new Scanner(System.in);
+        String input2 = inp.nextLine();
+        if(input2.toUpperCase().equals("Y"))
+        {
+            bjGame();
+        }
+        else
+        {
+            System.out.println("Thanks for playing!");
+        }
+        
+        
+    }
+
 }
