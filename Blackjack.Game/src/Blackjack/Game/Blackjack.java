@@ -71,11 +71,12 @@ public class Blackjack {
             suit = suitCard.suit();
             dSuit = dealerSuitCard.suit();
             System.out.println("Your next card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
-            if (Dsum >= 17) {
+            System.out.println("The dealers next card is a " + Dcard.get(a) + " of " + dSuit + " dealers sum: " + Dsum);
+            a++;
+            if (Dsum >= 17 && Dsum != 21) {
                 System.out.println("The Dealer Stood!");
             } else {
-                System.out.println("The dealers next card is a " + Dcard.get(a) + " of " + dSuit + " dealers sum: " + Dsum);
-                a++;
+                
             }
             
             i++;
