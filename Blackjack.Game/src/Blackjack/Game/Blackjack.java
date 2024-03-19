@@ -62,14 +62,35 @@ public class Blackjack {
 
     public void Hit() {
         Ycard.add(myCard.number());
-        sum += Ycard.get(i);
-        suit = suitCard.suit();
-        System.out.println("Your next card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
-        i++;
-        if (sum > 21) {
-            System.out.println("You have lost L bozo");
-        } else if (sum == 21) {
-            System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
+        switch (AceCheck()) {
+            case 2:
+                sum+=1;
+                System.out.println("Your next card is an ace of " + suit + " which brings your total to " + sum);
+                if (sum > 21) {
+                    System.out.println("You have lost L bozo");
+                } else if (sum == 21) {
+                    System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
+                }
+                break;
+            case 1:
+                sum+=11;
+                System.out.println("Your next card is an ace of " + suit + " which brings your total to " + sum);
+                if (sum > 21) {
+                    System.out.println("You have lost L bozo");
+                } else if (sum == 21) {
+                    System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
+                }
+                break;
+            default:
+                sum += Ycard.get(i);
+                suit = suitCard.suit();
+                System.out.println("Your next card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
+                i++;
+                if (sum > 21) {
+                    System.out.println("You have lost L bozo");
+                } else if (sum == 21) {
+                    System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
+                }       break;
         }
     }
 
@@ -80,14 +101,19 @@ public class Blackjack {
         System.out.println("Dealer's next card is a " + Dcard.get(a) + " of " + dSuit + " which brings the dealer's total to " + Dsum);
         a++;
     }
-
-    public boolean hasAce(ArrayList<Integer> hand) {
-        for (int card : hand) {
-            if (card == 11) {
-                return true;
+    public int AceCheck()
+    {
+        if(Ycard.get(i) == 0)
+        {
+            if(sum+11>21){
+                return 2;
+            }
+            else if(sum+11 <=21)
+            {
+                return 1;
             }
         }
-        return false;
+        return 0;
     }
 
     public void Turn() {
@@ -137,14 +163,18 @@ public class Blackjack {
         System.out.println("Would you like to play again? (Y/N)");
         Scanner inp = new Scanner(System.in);
         String input2 = inp.nextLine();
-        if (input2.toUpperCase().equals("Y")) {
-            Blackjack game = new Blackjack();
-            game.bjGame();
-            PlayAgain();
-        } else if (input2.toUpperCase().equals("N")) {
-            System.out.println("Thanks for playing!");
-        } else {
-            PlayAgain();
+        switch (input2.toUpperCase()) {
+            case "Y":
+                Blackjack game = new Blackjack();
+                game.bjGame();
+                PlayAgain();
+                break;
+            case "N":
+                System.out.println("Thanks for playing!");
+                break;
+            default:
+                PlayAgain();
+                break;
         }
     }
 
