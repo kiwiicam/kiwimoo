@@ -1,7 +1,7 @@
 package Blackjack.Game;
 public class Card {
-    private int[] cardNum = {0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
-    private String[] suits = {"Hearts", "Spades", "Clubs", "Diamonds"};
+    private int[] cardNum;
+    private String[] suits;
     public Card(int[] cardNum, String[] suits)
     {
         this.suits = suits;
