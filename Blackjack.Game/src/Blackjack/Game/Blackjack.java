@@ -44,42 +44,57 @@ public class Blackjack {
 
     }
 
-    public void gameStart() {
-        Dcard.add(dealerCard.number());
-        Ycard.add(myCard.number());
-        System.out.println("The dealers first card is a " + Dcard.get(a) + " of " + dSuit);
-        System.out.println("Your first card is a " + Ycard.get(i) + " of " + suit);
-        sum += Ycard.get(i);
-        Dsum += Dcard.get(a);
-        a++;
-        i++;
-        suit = suitCard.suit();
-        Ycard.add(myCard.number());
-        sum += Ycard.get(i);
-        System.out.println("Your second card is a " + Ycard.get(i) + " of " + suit + " which brings your total count to " + sum);
-        i++;
-    }
+        public void gameStart() {
+            Dcard.add(dealerCard.number());
+            Ycard.add(myCard.number());
+            dSuit = dealerSuitCard.suit();
+            if (DAceCheck() == 1) {
+                Dsum += 11;
+                System.out.println("The dealers first card is an ace of " + dSuit);
+            } else{
+                Dsum += Dcard.get(a);
+                System.out.println("The dealers first card is a " + Dcard.get(a) + " of " + dSuit);
+              }
+            a++;
+
+            switch (AceCheck()) {
+                case 2:
+                    sum += 1;
+                    System.out.println("Your first card is an ace of " + suit);
+                    i++;
+                    break;
+                case 1:
+                    sum += 11;
+                    System.out.println("Your first card is an ace of " + suit + " which brings your total count to " + sum);
+                    i++;
+                    break;
+                default:
+                    System.out.println("Your first card is a " + Ycard.get(i) + " of " + suit);
+                    sum += Ycard.get(i);
+                    i++;
+                    Hit();
+            }
+
+        }
 
     public void Hit() {
         Ycard.add(myCard.number());
         switch (AceCheck()) {
             case 2:
-                sum+=1;
+                sum += 1;
                 System.out.println("Your next card is an ace of " + suit + " which brings your total to " + sum);
-                if (sum > 21) {
-                    System.out.println("You have lost L bozo");
-                } else if (sum == 21) {
+                if (sum > 21); else if (sum == 21) {
                     System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
                 }
+                i++;
                 break;
             case 1:
-                sum+=11;
+                sum += 11;
                 System.out.println("Your next card is an ace of " + suit + " which brings your total to " + sum);
-                if (sum > 21) {
-                    System.out.println("You have lost L bozo");
-                } else if (sum == 21) {
+                if (sum > 21); else if (sum == 21) {
                     System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
                 }
+                i++;
                 break;
             default:
                 sum += Ycard.get(i);
@@ -90,26 +105,59 @@ public class Blackjack {
                     System.out.println("You have lost L bozo");
                 } else if (sum == 21) {
                     System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
-                }       break;
+                }
+                break;
         }
     }
 
     public void Dhit() {
         Dcard.add(dealerCard.number());
-        Dsum += Dcard.get(a);
-        dSuit = dealerSuitCard.suit();
-        System.out.println("Dealer's next card is a " + Dcard.get(a) + " of " + dSuit + " which brings the dealer's total to " + Dsum);
-        a++;
+        switch (DAceCheck()) {
+            case 2:
+                Dsum += 1;
+                System.out.println("Dealer's next card is a ace of " + dSuit + " which brings the dealer's total to " + Dsum);
+                if (Dsum > 21) {
+                    System.out.println("You have lost L bozo");
+                } else if (Dsum == 21) {
+                    System.out.println("YOU HAVE LOST DONT KEEP GAMBLING");
+                }
+                a++;
+                break;
+            case 1:
+                Dsum += 11;
+                System.out.println("Dealer's next card is a ace of " + dSuit + " which brings the dealer's total to " + Dsum);
+                if (Dsum > 21) {
+                    System.out.println("You have lost L bozo");
+                } else if (Dsum == 21) {
+                    System.out.println("THE DEALER WON U SUCK");
+                }
+                a++;
+                break;
+            default:
+
+                Dsum += Dcard.get(a);
+                dSuit = dealerSuitCard.suit();
+                System.out.println("Dealer's next card is a " + Dcard.get(a) + " of " + dSuit + " which brings the dealer's total to " + Dsum);
+                a++;
+        }
     }
-    public int AceCheck()
-    {
-        if(Ycard.get(i) == 0)
-        {
-            if(sum+11>21){
+
+    public int AceCheck() {
+        if (Ycard.get(i) == 0) {
+            if (sum + 11 > 21) {
                 return 2;
+            } else if (sum + 11 <= 21) {
+                return 1;
             }
-            else if(sum+11 <=21)
-            {
+        }
+        return 0;
+    }
+
+    public int DAceCheck() {
+        if (Dcard.get(a) == 0) {
+            if (Dsum + 11 > 21) {
+                return 2;
+            } else if (Dsum + 11 <= 21) {
                 return 1;
             }
         }
@@ -179,6 +227,10 @@ public class Blackjack {
     }
 
     public void StartArt() {
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
         System.out.print("88          88                       88        88                       88         \n"
                 + "88          88                       88        \"\"                       88         \n"
                 + "88          88                       88                                 88         \n"
