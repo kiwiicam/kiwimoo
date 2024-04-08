@@ -215,6 +215,10 @@ public class Blackjack {
             Dhit();
             if (Dsum >= 17 && Dsum < 21) {
                 System.out.println("Dealer stands.");
+//                if(Dsum == 21)
+//                {
+//                    endGame(false);
+//                }
             } else if (Dsum > 21) {
                 System.out.println("Dealer busts! You win!");
                 endGame(true);
@@ -227,7 +231,7 @@ public class Blackjack {
                 endGame(true);
             } else if (sum < Dsum) {
                 System.out.println("Dealer wins!");
-                endGame(true);
+                endGame(false);
             } else {
                 System.out.println("It's a tie!");
                 endGame(false);
@@ -301,7 +305,7 @@ public class Blackjack {
 
     public void getPlayersBet() {
         while (Stats.money < 50) {
-            System.out.println("It looks like you do not meet the mininum buyin?");
+            System.out.println("It looks like you do not meet the mininum buy in....");
             System.out.println("Maybe if you ask nicely?");
             Scanner scan = new Scanner(System.in);
             String input = scan.nextLine();
