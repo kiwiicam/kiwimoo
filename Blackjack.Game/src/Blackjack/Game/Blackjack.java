@@ -18,10 +18,10 @@ public class Blackjack {
     //private int sum;
     //private int i;
     //private int a;
-    private String suit, dSuit;
+    private String suit;
     // private String suit;
     //private String dSuit;
-    private final Card myCard, suitCard, dealerCard, dealerSuitCard;
+    private final Card myCard, suitCard, dealerCard;
     // private final Card myCard;
     //private final Card suitCard;
     //private final Card dealerCard;
@@ -34,14 +34,14 @@ public class Blackjack {
         this.myCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
         this.suitCard = new Card(null, new String[]{"Hearts", "Spades", "Clubs", "Diamonds"});
         this.dealerCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
-        this.dealerSuitCard = new Card(null, new String[]{"Hearts", "Spades", "Clubs", "Diamonds"});
         this.suit = suitCard.suit();
-        this.dSuit = dealerSuitCard.suit();
         this.i = 0;
         this.a = 0;
+        //stats.money = 1000;
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
+
         Blackjack game = new Blackjack();
         game.bjGame();
         game.PlayAgain();
@@ -59,131 +59,119 @@ public class Blackjack {
     }
 
     public void gameStart() throws IOException {
-        Dcard.add(dealerCard.number());
-        Ycard.add(myCard.number());
-        dSuit = dealerSuitCard.suit();
-        if (DAceCheck() == 1) {
-            Dsum += 11;
-            System.out.println("The dealers first card is an ace of " + dSuit);
-        } else {
-            Dsum += Dcard.get(a);
-            System.out.println("The dealers first card is a " + Dcard.get(a) + " of " + dSuit);
-        }
-        a++;
-
-        switch (AceCheck()) {
-            case 2:
-                sum += 1;
-                System.out.println("Your first card is an ace of " + suit);
-                i++;
-                break;
-            case 1:
-                sum += 11;
-                System.out.println("Your first card is an ace of " + suit + " which brings your total count to " + sum);
-                i++;
-                break;
-            default:
-                System.out.println("Your first card is a " + Ycard.get(i) + " of " + suit);
-                sum += Ycard.get(i);
-                i++;
-                Hit();
-        }
+        DAceCheck();
+        AceCheck();
+        AceCheck();
 
     }
 
     public void Hit() throws IOException {
         Ycard.add(myCard.number());
-        switch (AceCheck()) {
-            case 2:
-                sum += 1;
-                System.out.println("Your next card is an ace of " + suit + " which brings your total to " + sum);
-                if (sum > 21); else if (sum == 21) {
-                    System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
-                    endGame(true);
-                }
-                i++;
-                break;
-            case 1:
-                sum += 11;
-                System.out.println("Your next card is an ace of " + suit + " which brings your total to " + sum);
-                if (sum > 21); else if (sum == 21) {
-                    System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
-                    endGame(true);
-                }
-                i++;
-                break;
-            default:
-                sum += Ycard.get(i);
-                suit = suitCard.suit();
-                System.out.println("Your next card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
-                i++;
-                if (sum > 21) {
-                    System.out.println("You have lost L bozo");
-                    endGame(false);
-                } else if (sum == 21) {
-                    System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
-                    endGame(true);
-                }
-                break;
+        AceCheck();
+        if (sum > 21) {
+            System.out.println("You have lost L bozo");
+            endGame(false);
+        } else if (sum == 21) {
+            System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
+            endGame(true);
         }
+
     }
 
     public void Dhit() throws IOException {
         Dcard.add(dealerCard.number());
-        switch (DAceCheck()) {
-            case 2:
-                Dsum += 1;
-                System.out.println("Dealer's next card is a ace of " + dSuit + " which brings the dealer's total to " + Dsum);
-                if (Dsum > 21) {
-                    System.out.println("You have lost L bozo");
-                    endGame(false);
-                } else if (Dsum == 21) {
-                    System.out.println("YOU HAVE LOST DONT KEEP GAMBLING");
-                    endGame(false);
-                }
-                a++;
-                break;
-            case 1:
-                Dsum += 11;
-                System.out.println("Dealer's next card is a ace of " + dSuit + " which brings the dealer's total to " + Dsum);
-                if (Dsum > 21) {
-                    System.out.println("You have lost L bozo");
-                    endGame(false);
-                } else if (Dsum == 21) {
-                    System.out.println("THE DEALER WON U SUCK");
-                    endGame(false);
-                }
-                a++;
-                break;
-            default:
-
-                Dsum += Dcard.get(a);
-                dSuit = dealerSuitCard.suit();
-                System.out.println("Dealer's next card is a " + Dcard.get(a) + " of " + dSuit + " which brings the dealer's total to " + Dsum);
-                a++;
+        DAceCheck();
+        if (Dsum > 21) {
+            System.out.println("dealer lost gg");
+            endGame(false);
+        } else if (sum == 21) {
+            System.out.println("never gamble buddy");
+            endGame(true);
         }
+
     }
 
-    public int AceCheck() {
+    public void AceCheck() {
+        Ycard.add(myCard.number());
+        suit = suitCard.suit();
+
         if (Ycard.get(i) == 0) {
             if (sum + 11 > 21) {
-                return 2;
+                sum += 1;
+                System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
+                i++;
             } else if (sum + 11 <= 21) {
-                return 1;
+                sum += 11;
+                System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
+                i++;
             }
+        } else if (Ycard.get(i) == 10) {
+            String pictureCard = pictureCheck();
+            if (pictureCard != null) {
+                sum += Ycard.get(i);
+                System.out.println("Your card is a " + pictureCard + " of " + suit + " which brings your total to " + sum);
+                i++;
+
+            } else {
+                sum += Ycard.get(i);
+                System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
+                i++;
+            }
+
+        } else {
+
+            sum += Ycard.get(i);
+            System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
+            i++;
         }
-        return 0;
+
     }
 
-    public int DAceCheck() {
+    public void DAceCheck() {
+        Dcard.add(myCard.number());
+        suit = suitCard.suit();
+
         if (Dcard.get(a) == 0) {
             if (Dsum + 11 > 21) {
-                return 2;
+                Dsum += 1;
+                System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
+                a++;
             } else if (Dsum + 11 <= 21) {
-                return 1;
+                Dsum += 11;
+                System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
+                a++;
             }
+        } 
+        else if (Dcard.get(a) == 10) {
+            String pictureCard = pictureCheck();
+            if (pictureCard != null) {
+                Dsum += Dcard.get(i);
+                System.out.println("Dealers card is a " + pictureCard + " of " + suit + " which brings their total to " + Dsum);
+                a++;
+
+            } else {                Dsum += Dcard.get(i);
+                System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
+                a++;
+            }
+
+        } else {
+
+            Dsum += Dcard.get(a);
+            System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
+            a++;
         }
-        return 0;
+    }
+
+    public String pictureCheck() {
+        rand randGenerator = new rand();
+        int randIndex = randGenerator.randPicture();
+        if (randIndex == 0) {
+            return null;
+        } else {
+            String[] pictureList = {"King", "Queen", "Jack"};
+            String picture = pictureList[randIndex];
+            return picture;
+        }
     }
 
     public void Turn() throws IOException {
