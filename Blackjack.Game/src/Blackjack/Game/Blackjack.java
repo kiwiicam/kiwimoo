@@ -9,23 +9,11 @@ import java.io.IOException;
 public class Blackjack {
 
     Stats stats;
-    public int newBet;
+    public static int tableAmount, bet;
     private final ArrayList<Integer> Ycard, Dcard;
-    //private final ArrayList<Integer> Ycard;
-    //private final ArrayList<Integer> Dcard;
     private int Dsum, sum, i, a;
-    //private int Dsum;
-    //private int sum;
-    //private int i;
-    //private int a;
     private String suit;
-    // private String suit;
-    //private String dSuit;
     private final Card myCard, suitCard, dealerCard;
-    // private final Card myCard;
-    //private final Card suitCard;
-    //private final Card dealerCard;
-    //private final Card dealerSuitCard;
 
     public Blackjack() throws FileNotFoundException {
         this.stats = new Stats();
@@ -37,25 +25,20 @@ public class Blackjack {
         this.suit = suitCard.suit();
         this.i = 0;
         this.a = 0;
-        //stats.money = 1000;
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-
         Blackjack game = new Blackjack();
         game.bjGame();
         game.PlayAgain();
     }
 
     public void bjGame() throws IOException {
-        printStats();
-        StartArt();
+        Print.StatsDisplay();
+        Print.StartArt();
         getPlayersBet();
-
-        // Stats.updateStatsFile("newBet", newBet);
         gameStart();
         Turn();
-
     }
 
     public void gameStart() throws IOException {
@@ -141,15 +124,15 @@ public class Blackjack {
                 System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
                 a++;
             }
-        } 
-        else if (Dcard.get(a) == 10) {
+        } else if (Dcard.get(a) == 10) {
             String pictureCard = pictureCheck();
             if (pictureCard != null) {
                 Dsum += Dcard.get(i);
                 System.out.println("Dealers card is a " + pictureCard + " of " + suit + " which brings their total to " + Dsum);
                 a++;
 
-            } else {                Dsum += Dcard.get(i);
+            } else {
+                Dsum += Dcard.get(i);
                 System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
                 a++;
             }
@@ -175,8 +158,7 @@ public class Blackjack {
     }
 
     public void Turn() throws IOException {
-        Stats.increasePlays();
-        // newBet = getPlayersBet();
+        FileEdit.increasePlays();
         boolean y = true;
         while (y) {
             System.out.println("Hit or stand? (H/S)");
@@ -239,56 +221,12 @@ public class Blackjack {
                 break;
             case "N":
                 System.out.println("Thanks for playing!");
-                printStats();
+                Print.StatsDisplay();
                 break;
             default:
                 PlayAgain();
                 break;
         }
-    }
-
-    public void StartArt() {
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.print("88          88                       88        88                       88         \n"
-                + "88          88                       88        \"\"                       88         \n"
-                + "88          88                       88                                 88         \n"
-                + "88,dPPYba,  88 ,adPPYYba,  ,adPPYba, 88   ,d8  88 ,adPPYYba,  ,adPPYba, 88   ,d8   \n"
-                + "88P'    \"8a 88 \"\"     `Y8 a8\"     \"\" 88 ,a8\"   88 \"\"     `Y8 a8\"     \"\" 88 ,a8\"    \n"
-                + "88       d8 88 ,adPPPPP88 8b         8888[     88 ,adPPPPP88 8b         8888[      \n"
-                + "88b,   ,a8\" 88 88,    ,88 \"8a,   ,aa 88`\"Yba,  88 88,    ,88 \"8a,   ,aa 88`\"Yba,   \n"
-                + "8Y\"Ybbd8\"'  88 `\"8bbdP\"Y8  `\"Ybbd8\"' 88   `Y8a 88 `\"8bbdP\"Y8  `\"Ybbd8\"' 88   `Y8a  \n"
-                + "                                              ,88                                  \n"
-                + "                                            888P\"                                  ");
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-    }
-
-    public void printStats() {
-        System.out.println("---------------------");
-        System.out.println("Games played: " + Stats.plays);
-        System.out.println("Current money: " + Stats.money);
-        System.out.println("Total money bet: " + Stats.moneyBet);
-        System.out.println("Total money won: " + Stats.moneyWon);
-        System.out.println("Total money lost: " + Stats.moneyLost);
-        System.out.println("Total profit: " + (Stats.moneyWon - Stats.moneyLost));
-        System.out.println("----------------------");
-    }
-
-    public static void gameEndUpdateCalls() throws IOException {
-        //there is no need to make it update plays as it updates 
-        //everytime the game runs 
-        //as it was the og coding to test fileIO
-        Stats.updateStatsFile("money", Stats.money);
-        Stats.updateStatsFile("moneyBet", Stats.moneyBet);
-        Stats.updateStatsFile("moneyWon", Stats.moneyWon);
-        Stats.updateStatsFile("moneyLost", Stats.moneyLost);
-        // Stats.updateStatsFile("profit", (Stats.moneyWon - Stats.moneyLost));
     }
 
     public void getPlayersBet() {
@@ -308,16 +246,16 @@ public class Blackjack {
             System.out.println("Please bet no less than 50 and no more than your current balance of: " + Stats.money);
             while (true) {
                 try {
-                    newBet = betInput.nextInt();
+                    bet = betInput.nextInt();
                     break;
                 } catch (InputMismatchException e) {
                     System.out.println("Please input a valid integer!");
                 }
                 betInput.nextLine();
             }
-            if (newBet >= 50 && newBet <= Stats.money) {
-                Stats.money = Stats.money - newBet; //betting before cards are dealt
-                Stats.moneyBet = Stats.moneyBet + newBet;
+            if (bet >= 50 && bet <= Stats.money) {
+                Stats.money = Stats.money - bet; //betting before cards are dealt
+                Stats.moneyBet = Stats.moneyBet + bet;
                 break;
             }
 
@@ -327,15 +265,19 @@ public class Blackjack {
     public void endGame(boolean win) throws IOException { //true for win
 
         if (!win) {
-            Stats.moneyLost += newBet;
+            Stats.moneyLost += bet;
         } else {
-            int wonCoins = newBet * 2;
+            int wonCoins = bet * 2;
             Stats.money += wonCoins;
-            Stats.moneyWon += newBet;
-
+            Stats.moneyWon += bet;
         }
-
-        gameEndUpdateCalls();
+        FileEdit.gameEndingUpdates();
     }
 
+    public static void terminate() {
+        System.out.println("Program closed");
+        System.out.println("House always wins");
+        System.out.println("You will not be refunded any bet money");
+        System.exit(0);
+    }
 }
