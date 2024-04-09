@@ -49,27 +49,25 @@ public class Blackjack {
     }
 
     public void Hit() throws IOException {
-        Ycard.add(myCard.number());
         AceCheck();
         if (sum > 21) {
             System.out.println("You have lost L bozo");
-            endGame(false);
+            endGame(0);
         } else if (sum == 21) {
             System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
-            endGame(true);
+            endGame(1);
         }
 
     }
 
     public void Dhit() throws IOException {
-        Dcard.add(dealerCard.number());
         DAceCheck();
         if (Dsum > 21) {
             System.out.println("dealer lost gg");
-            endGame(false);
-        } else if (sum == 21) {
+            endGame(0);
+        } else if (Dsum == 21) {
             System.out.println("never gamble buddy");
-            endGame(true);
+            endGame(0);
         }
 
     }
@@ -127,12 +125,12 @@ public class Blackjack {
         } else if (Dcard.get(a) == 10) {
             String pictureCard = pictureCheck();
             if (pictureCard != null) {
-                Dsum += Dcard.get(i);
+                Dsum += Dcard.get(a);
                 System.out.println("Dealers card is a " + pictureCard + " of " + suit + " which brings their total to " + Dsum);
                 a++;
 
             } else {
-                Dsum += Dcard.get(i);
+                Dsum += Dcard.get(a);
                 System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
                 a++;
             }
@@ -191,25 +189,29 @@ public class Blackjack {
 //                }
             } else if (Dsum > 21) {
                 System.out.println("Dealer busts! You win!");
-                endGame(true);
+                endGame(1);
             }
         }
 
         if (sum <= 21 && Dsum <= 21) {
             if (sum > Dsum) {
                 System.out.println("You win!");
-                endGame(true);
+                endGame(1);
             } else if (sum < Dsum) {
                 System.out.println("Dealer wins!");
-                endGame(false);
+                endGame(0);
             } else {
                 System.out.println("It's a tie!");
-                endGame(false);
+                endGame(2);
             }
         }
     }
 
     public void PlayAgain() throws FileNotFoundException, IOException {
+        a = 0;
+        i = 0;
+        Ycard.clear();
+        Dcard.clear();
         System.out.println("Would you like to play again? (Y/N)");
         Scanner inp = new Scanner(System.in);
         String input2 = inp.nextLine().trim();
@@ -262,14 +264,18 @@ public class Blackjack {
         }
     }
 
-    public void endGame(boolean win) throws IOException { //true for win
+    public void endGame(int result) throws IOException { //true for win
 
-        if (!win) {
+        if (result == 0) {
             Stats.moneyLost += bet;
-        } else {
+        } else if(result == 1){
             int wonCoins = bet * 2;
             Stats.money += wonCoins;
             Stats.moneyWon += bet;
+        }
+        else if(result == 2)
+        {
+            Stats.money = bet;            
         }
         FileEdit.gameEndingUpdates();
     }

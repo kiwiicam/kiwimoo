@@ -15,7 +15,7 @@ public class rand {
     }
     public int randPicture()
     {
-        int max = 3;
+        int max = 2;
         int min = 0;
         int rand = (int)(Math.random() * (max - min + 1)) + min;
         return rand;
