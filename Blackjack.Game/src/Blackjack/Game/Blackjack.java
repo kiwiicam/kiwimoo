@@ -62,10 +62,7 @@ public class Blackjack {
 
     public void Dhit() throws IOException {
         DAceCheck();
-        if (Dsum > 21) {
-            System.out.println("dealer lost gg");
-            endGame(0);
-        } else if (Dsum == 21) {
+        if (Dsum == 21) {
             System.out.println("never gamble buddy");
             endGame(0);
         }
@@ -146,13 +143,15 @@ public class Blackjack {
     public String pictureCheck() {
         rand randGenerator = new rand();
         int randIndex = randGenerator.randPicture();
-        if (randIndex == 0) {
+        if (randIndex == 3) {
             return null;
-        } else {
+        } 
+        else if(randIndex == 0 || randIndex == 1 || randIndex == 2){
             String[] pictureList = {"King", "Queen", "Jack"};
             String picture = pictureList[randIndex];
             return picture;
         }
+        return null;
     }
 
     public void Turn() throws IOException {
