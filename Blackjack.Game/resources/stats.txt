@@ -1,5 +1,5 @@
-plays 83
-money 0
-moneyBet 98694
-moneyWon 41647
-moneyLost 58147
+plays 0
+money 1000
+moneyBet 0
+moneyWon 0
+moneyLost 0
