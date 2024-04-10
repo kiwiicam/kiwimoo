@@ -1,5 +1,5 @@
-plays 11
-money 100
-moneyBet 1800
-moneyWon 250
-moneyLost 1600
+plays 0
+money 1000
+moneyBet 0
+moneyWon 0
+moneyLost 0

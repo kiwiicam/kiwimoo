@@ -42,12 +42,12 @@ public class Print {
         System.out.println("Total profit: " + (Stats.moneyWon - Stats.moneyLost));
         System.out.println("----------------------");
     }
-    
-    public static void checkMoney(){
+
+    public static void checkMoney() {
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("You currently have a total of "+Stats.money+" chips");
+        System.out.println("You currently have a total of " + Stats.money + " chips");
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("You also currently have "+Blackjack.tableAmount+" chips on the table");
+        System.out.println("You also currently have " + Blackjack.tableAmount + " chips on the table");
         System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         System.out.println();
     }
@@ -86,5 +86,17 @@ public class Print {
                 + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⣰⠊⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣶⣄⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
                 + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⢸⣧⠀⠀⢀⠞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠙⢿⣿⣇⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n"
                 + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡿⠦⠠⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠧⠤⠄⠙⡿⠿⠦⠤⠤⠤⠤⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀");
+    }
+
+    public static void tableInfo() {
+        System.out.println("+======================================+");
+        System.out.println("You cannot play with more than 500 chips at this table.");
+        System.out.println("----------------------------------------");
+        System.out.println("Minimum buy in is 50 chips.");
+        System.out.println("----------------------------------------");
+        System.out.println("You currently have a total of " + Stats.money + " chips.");
+        System.out.println("----------------------------------------");
+        System.out.println("How many chips do you wish to play with?");
+        System.out.println("+======================================+");
     }
 }

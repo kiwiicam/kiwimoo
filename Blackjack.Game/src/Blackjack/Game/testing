@@ -1,0 +1,49 @@
+
+dealers card is an ace of Clubs which brings their total to 11
+Your card is a Queen of Diamonds which brings your total to 10
+Your card is a 10 of Hearts which brings your total to 20
+Hit or stand? (H/S)
+s
+Okay you have stood!
+Dealers card is an ace of Hearts which brings their total to 12
+Dealers card is a 10 of Diamonds which brings their total to 22
+dealer lost gg
+Dealer busts! You win!----------------------------
+dealer should not bust in this scenario, there has been 2 aces and a 10 \
+which should equal 12 = A(1) + A(1) + 10
+===========================================================
+Dealers card is an ace of Clubs which brings their total to 11
+Your card is an ace of Spades which brings your total to 11
+Your card is a 4 of Spades which brings your total to 15
+Hit or stand? (H/S)
+h
+Your card is a 10 of Hearts which brings your total to 25
+You have lost L bozo
+----------------------------------
+similar problem for user cards.
+=======================================
+
+Dealers card is a 6 of Hearts which brings their total to 6
+Your card is a Queen of Hearts which brings your total to 10
+Your card is an ace of Hearts which brings your total to 21
+Hit or stand? (H/S)
+
+====================================
+issue with sums causing status of game to print twice
+
+Place your bet for this hand!
+You have 500 chips on the table.
+100
+Dealers card is a 6 of Hearts which brings their total to 6
+Your card is a Queen of Hearts which brings your total to 10
+Your card is an ace of Hearts which brings your total to 21
+Hit or stand? (H/S)
+s
+----------------------------------------
+Okay you have stood!
+----------------------------------------
+Dealers card is a 7 of Spades which brings their total to 13
+Dealers card is a Queen of Spades which brings their total to 23
+Dealer busts.
+----------------------------------------
+Dealer busts!

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class Blackjack {
 
-    Stats stats;
+    Stats stats; //DO NOT DELETE THIS
     public static int tableAmount, bet;
     private final ArrayList<Integer> Ycard, Dcard;
     private int Dsum, sum, i, a;
@@ -36,7 +36,8 @@ public class Blackjack {
     public void bjGame() throws IOException {
         Print.StatsDisplay();
         Print.StartArt();
-        getPlayersBet();
+        Scan.putMoneyInTable();
+        Scan.Bet();
         gameStart();
         Turn();
     }
@@ -44,17 +45,17 @@ public class Blackjack {
     public void gameStart() throws IOException {
         DAceCheck();
         AceCheck();
-        AceCheck();
-
+        AceCheck(); //why is this called twice if not 3 times?
     }
 
     public void Hit() throws IOException {
         AceCheck();
         if (sum > 21) {
-            System.out.println("You have lost L bozo");
+            System.out.println("You bust.");
+            System.out.println("----------------------------------------");
             endGame(0);
         } else if (sum == 21) {
-            System.out.println("YOU HAVE WON WOOHOOOO KEEP GAMBLING!!!");
+            System.out.println("You win!");
             endGame(1);
         }
 
@@ -63,8 +64,7 @@ public class Blackjack {
     public void Dhit() throws IOException {
         DAceCheck();
         if (Dsum > 21) {
-            System.out.println("dealer lost gg");
-            endGame(0);
+            System.out.println("Dealer busts."); //do not endGame
         } else if (Dsum == 21) {
             System.out.println("never gamble buddy");
             endGame(0);
@@ -157,23 +157,23 @@ public class Blackjack {
 
     public void Turn() throws IOException {
         FileEdit.increasePlays();
-        boolean y = true;
-        while (y) {
+        while (true) {
             System.out.println("Hit or stand? (H/S)");
-            Scanner input = new Scanner(System.in);
-            String input1 = input.nextLine();
-            if (input1.toUpperCase().equals("H") && sum < 21) {
+            String str = Scan.newInput().toUpperCase();
+            if (str.equals("H") && sum < 21) {
                 Hit();
                 if (sum > 21) {
-                    y = false;
+                    break;
                 }
                 if (sum == 21) {
-                    y = false;
+                    break;
                 }
-            } else if (input1.toUpperCase().equals("S")) {
+            } else if (str.equals("S")) {
+                System.out.println("----------------------------------------");
                 System.out.println("Okay you have stood!");
-                y = false;
+                System.out.println("----------------------------------------");
                 dTurn();
+                break;
             }
         }
     }
@@ -183,12 +183,10 @@ public class Blackjack {
             Dhit();
             if (Dsum >= 17 && Dsum < 21) {
                 System.out.println("Dealer stands.");
-//                if(Dsum == 21)
-//                {
-//                    endGame(false);
-//                }
             } else if (Dsum > 21) {
-                System.out.println("Dealer busts! You win!");
+                System.out.println("----------------------------------------");
+                System.out.println("Dealer busts!");
+                System.out.println("----------------------------------------");
                 endGame(1);
             }
         }
@@ -213,16 +211,23 @@ public class Blackjack {
         Ycard.clear();
         Dcard.clear();
         System.out.println("Would you like to play again? (Y/N)");
-        Scanner inp = new Scanner(System.in);
-        String input2 = inp.nextLine().trim();
-        switch (input2.toUpperCase()) {
+        String str = Scan.newInput();
+        switch (str) {
             case "Y":
                 Blackjack game = new Blackjack();
                 game.bjGame();
                 PlayAgain();
                 break;
             case "N":
+                System.out.println("----------------------------------------");
+
                 System.out.println("Thanks for playing!");
+                Stats.money += tableAmount;
+                System.out.println("You cash out " + tableAmount + "!");
+                tableAmount = 0;
+                System.out.println("----------------------------------------");
+
+                FileEdit.gameEndingUpdates();
                 Print.StatsDisplay();
                 break;
             default:
@@ -231,59 +236,43 @@ public class Blackjack {
         }
     }
 
-    public void getPlayersBet() {
-        while (Stats.money < 50) {
-            System.out.println("It looks like you do not meet the mininum buy in....");
-            System.out.println("Maybe if you ask nicely?");
-            Scanner scan = new Scanner(System.in);
-            String input = scan.nextLine();
-            if (input.equals("pleasegivemoney")) {
-                Stats.money = 50;
-            }
-        }
-
-        Scanner betInput = new Scanner(System.in);
-        while (true) {
-            System.out.println("How many coins do you wish to bet?");
-            System.out.println("Please bet no less than 50 and no more than your current balance of: " + Stats.money);
-            while (true) {
-                try {
-                    bet = betInput.nextInt();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.println("Please input a valid integer!");
-                }
-                betInput.nextLine();
-            }
-            if (bet >= 50 && bet <= Stats.money) {
-                Stats.money = Stats.money - bet; //betting before cards are dealt
-                Stats.moneyBet = Stats.moneyBet + bet;
-                break;
-            }
-
-        }
-    }
-
     public void endGame(int result) throws IOException { //true for win
-
-        if (result == 0) {
-            Stats.moneyLost += bet;
-        } else if(result == 1){
-            int wonCoins = bet * 2;
-            Stats.money += wonCoins;
-            Stats.moneyWon += bet;
+        int wonCoins = bet * 2;
+        switch (result) {
+            case 0:
+                //lose. no need to change Stats.money as subbed when bet
+                Stats.moneyLost += bet;
+                break;
+            case 1:
+                //win
+                tableAmount += wonCoins;
+                Stats.moneyWon += bet;
+                break;
+            case 2:
+                //tie refunds
+                tableAmount += bet;
+                break;
+            default:
+                break;
         }
-        else if(result == 2)
-        {
-            Stats.money = bet;            
-        }
+        System.out.println("You now have " + tableAmount + " chips on the table");
+        System.out.println("You also have " + Stats.money + " chips in the bank.");
         FileEdit.gameEndingUpdates();
     }
 
     public static void terminate() {
-        System.out.println("Program closed");
-        System.out.println("House always wins");
-        System.out.println("You will not be refunded any bet money");
+        System.out.println("Program closed.");
+        System.out.println("House always wins..");
+        System.out.println("You will not be refunded any bet money!");
+        System.out.println("But you cash out your table chips of " + tableAmount);
+        System.out.println("+======================================+");
+        System.out.println();
+        Stats.money += tableAmount;
+        System.out.println("You know have a total amount of " + Stats.money + " chips.");
+        System.out.println();
+        System.out.println("+======================================+");
+
+        tableAmount = 0;
         System.exit(0);
     }
 }
