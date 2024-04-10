@@ -13,7 +13,7 @@ public class Blackjack {
     private final ArrayList<Integer> Ycard, Dcard;
     private int Dsum, sum, i, a;
     private String suit;
-    private final Card myCard, suitCard, dealerCard;
+    private final Card myCard, suitCard;
 
     public Blackjack() throws FileNotFoundException {
         this.stats = new Stats();
@@ -21,7 +21,6 @@ public class Blackjack {
         this.Dcard = new ArrayList<>();
         this.myCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
         this.suitCard = new Card(null, new String[]{"Hearts", "Spades", "Clubs", "Diamonds"});
-        this.dealerCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
         this.suit = suitCard.suit();
         this.i = 0;
         this.a = 0;
@@ -119,7 +118,8 @@ public class Blackjack {
                 System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
                 a++;
             }
-        } else if (Dcard.get(a) == 10) {
+        } 
+        else if (Dcard.get(a) == 10) {
             String pictureCard = pictureCheck();
             if (pictureCard != null) {
                 Dsum += Dcard.get(a);
@@ -141,7 +141,7 @@ public class Blackjack {
     }
 
     public String pictureCheck() {
-        rand randGenerator = new rand();
+        Rand randGenerator = new Rand();
         int randIndex = randGenerator.randPicture();
         if (randIndex == 3) {
             return null;
@@ -158,7 +158,7 @@ public class Blackjack {
         FileEdit.increasePlays();
         boolean y = true;
         while (y) {
-            System.out.println("Hit or stand? (H/S)");
+            System.out.println("Hit or Stand? (H/S)");
             Scanner input = new Scanner(System.in);
             String input1 = input.nextLine();
             if (input1.toUpperCase().equals("H") && sum < 21) {

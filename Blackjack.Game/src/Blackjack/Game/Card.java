@@ -25,13 +25,13 @@ public class Card {
         return cardNum;
     }
     public String suit(){
-        rand randSuitGenerator = new rand();
+        Rand randSuitGenerator = new Rand();
         int randSuitIndex = randSuitGenerator.randSuit();
         return suits[randSuitIndex];
         
     }
     public int number(){
-        rand randGenerator = new rand();
+        Rand randGenerator = new Rand();
         int randIndex = randGenerator.randNum();
         return cardNum[randIndex];        
         
