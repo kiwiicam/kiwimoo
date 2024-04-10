@@ -1,4 +1,7 @@
 package Blackjack.Game;
+
+import java.util.Random;
+
 public class Card {
     private int[] cardNum;
     private String[] suits;
@@ -25,13 +28,13 @@ public class Card {
         return cardNum;
     }
     public String suit(){
-        rand randSuitGenerator = new rand();
+        Random randSuitGenerator = new Random();
         int randSuitIndex = randSuitGenerator.randSuit();
         return suits[randSuitIndex];
         
     }
     public int number(){
-        rand randGenerator = new rand();
+        Random randGenerator = new Random();
         int randIndex = randGenerator.randNum();
         return cardNum[randIndex];        
         
