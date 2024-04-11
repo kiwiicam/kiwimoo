@@ -89,7 +89,7 @@ public class Scan {
                 str = newInput();
 
                 try {
-                    int i = Integer.parseInt(str);
+                    i = Integer.parseInt(str);
                     if (i >= 50 && i <= Stats.money && i <= 500) {
                         Blackjack.tableAmount = i;
                         Stats.money -= i;
