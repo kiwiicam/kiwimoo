@@ -1,8 +1,6 @@
 package Blackjack.Game;
 
 import java.util.*;
-import java.util.Scanner;
-import Blackjack.Game.Stats;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -35,6 +33,7 @@ public class Blackjack {
     public void bjGame() throws IOException {
         Print.StatsDisplay();
         Print.StartArt();
+      Print.controls(); 
         Scan.putMoneyInTable();
         Scan.Bet();
         gameStart();
@@ -44,7 +43,7 @@ public class Blackjack {
     public void gameStart() throws IOException {
         DAceCheck();
         AceCheck();
-        AceCheck(); //why is this called twice if not 3 times?
+        AceCheck(); 
     }
 
     public void Hit() throws IOException {
@@ -75,34 +74,39 @@ public class Blackjack {
         Ycard.add(myCard.number());
         suit = suitCard.suit();
 
-        if (Ycard.get(i) == 0) {
-            if (sum + 11 > 21) {
-                sum += 1;
-                System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
-                i++;
-            } else if (sum + 11 <= 21) {
-                sum += 11;
-                System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
-                i++;
-            }
-        } else if (Ycard.get(i) == 10) {
-            String pictureCard = pictureCheck();
-            if (pictureCard != null) {
-                sum += Ycard.get(i);
-                System.out.println("Your card is a " + pictureCard + " of " + suit + " which brings your total to " + sum);
-                i++;
-
-            } else {
-                sum += Ycard.get(i);
-                System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
-                i++;
-            }
-
-        } else {
-
+        if (null == Ycard.get(i)) {
+            
             sum += Ycard.get(i);
             System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
             i++;
+        } else switch (Ycard.get(i)) {
+            case 0:
+                if (sum + 11 > 21) {
+                    sum += 1;
+                    System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
+                    i++;
+                } else if (sum + 11 <= 21) {
+                    sum += 11;
+                    System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
+                    i++;
+                }   break;
+            case 10:
+                String pictureCard = pictureCheck();
+                if (pictureCard != null) {
+                    sum += Ycard.get(i);
+                    System.out.println("Your card is a " + pictureCard + " of " + suit + " which brings your total to " + sum);
+                    i++;
+                    
+                } else {
+                    sum += Ycard.get(i);
+                    System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
+                    i++;
+                }   break;
+            default:
+                sum += Ycard.get(i);
+                System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
+                i++;
+                break;
         }
 
     }
@@ -144,8 +148,7 @@ public class Blackjack {
     }
 
     public String pictureCheck() {
-        Random randGenerator = new Random();
-        int randIndex = randGenerator.randPicture();
+        int randIndex = rand.randPicture();
         if (randIndex == 3) {
             return null;
         } 
