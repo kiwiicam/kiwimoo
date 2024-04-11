@@ -18,7 +18,7 @@ public class Blackjack {
         this.stats = new Stats();
         this.Ycard = new ArrayList<>();
         this.Dcard = new ArrayList<>();
-        this.myCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
+        this.myCard = new Card(new int[]{0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7}, null);
         this.suitCard = new Card(null, new String[]{"Hearts", "Spades", "Clubs", "Diamonds"});
         this.suit = suitCard.suit();
         this.i = 0;
@@ -42,61 +42,31 @@ public class Blackjack {
     }
 
     public void gameStart() throws IOException {
-        DAceCheck();
-        AceCheck();
-        AceCheck();
+        Dhit();
+        Hit();
+        Hit();
     }
 
-    public void Hit() throws IOException {
-
-        AceCheck();
-
-        if (sum > 21) {
-            System.out.println("You bust.");
-            System.out.println("----------------------------------------");
-            endGame(0);
-        } else if (sum == 21) {
-            System.out.println("You win!");
-            endGame(1);
-        }
-
-    }
-
-    public void Dhit() throws IOException {
-        DAceCheck();
-        if (Dsum > 21) {
-            System.out.println("Dealer busts."); //do not endGame
-        } else if (Dsum == 21) {
-            System.out.println("never gamble buddy");
-            endGame(0);
-        }
-
-    }
-
-    public void AceCheck() {
+    public void Hit() {
         Ycard.add(myCard.number());
         suit = suitCard.suit();
 
         if (null == Ycard.get(i)) {
-
             sum += Ycard.get(i);
             System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
             i++;
-
         } else {
             switch (Ycard.get(i)) {
                 case 0:
-                    if (sum + 11 > 21) {
-                        sum += 1;
-                        System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
-                        i++;
-                        prev = true;
-                    } else if (sum + 11 <= 21) {
+                    if (sum + 11 <= 21) {
                         sum += 11;
                         System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
-                        i++;
-                        prev = true;
+                    } else {
+                        sum += 1;
+                        System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
                     }
+                    i++;
+                    prev = true;
                     break;
                 case 10:
                     String pictureCard = pictureCheck();
@@ -105,7 +75,6 @@ public class Blackjack {
                         System.out.println("Your card is a " + pictureCard + " of " + suit + " which brings your total to " + sum);
                         i++;
                         prev = false;
-
                     } else {
                         sum += Ycard.get(i);
                         System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
@@ -115,24 +84,21 @@ public class Blackjack {
                     break;
                 default:
                     sum += Ycard.get(i);
-                    if (prev == true) {
-                        if (sum > 21) {
-                            sum -= 10;
-                            System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum + " since your previous card was an ace!");
-                            prev = false;
-                        }
-                        
+                    if (prev && sum > 21 && Ycard.contains(0)) {
+                        sum -= Ycard.get(i);
+                        sum+=1;
+                        System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum + " since your previous card was an ace!");
+                        prev = false;
                     } else {
                         System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
                         i++;
-                        
                     }
                     break;
             }
         }
     }
 
-    public void DAceCheck() {
+    public void Dhit() {
         Dcard.add(myCard.number());
         suit = suitCard.suit();
 
@@ -180,26 +146,38 @@ public class Blackjack {
     }
 
     public void Turn() throws IOException {
-        FileEdit.increasePlays();
-        while (true) {
-            System.out.println("Hit or stand? (H/S)");
-            String str = Scan.newInput().toUpperCase();
-            if (str.equals("H") && sum < 21) {
-                Hit();
-                if (sum > 21) {
+        if (sum != 21) {
+            FileEdit.increasePlays();
+            while (true) {
+                System.out.println("Hit or stand? (H/S)");
+                String str = Scan.newInput().toUpperCase();
+                if (str.equals("H") && sum < 21) {
+                    Hit();
+                    if (sum == 21) {
+                        break;
+                    }
+                    if (sum > 21) {
+                        break;
+                    }
+                } else if (str.equals("S")) {
+                    System.out.println("----------------------------------------");
+                    System.out.println("Okay you have stood!");
+                    System.out.println("----------------------------------------");
+                    dTurn();
                     break;
                 }
-                if (sum == 21) {
-                    break;
-                }
-            } else if (str.equals("S")) {
-                System.out.println("----------------------------------------");
-                System.out.println("Okay you have stood!");
-                System.out.println("----------------------------------------");
-                dTurn();
-                break;
             }
         }
+        if (sum == 21) {
+            System.out.println("you hit 21 !!! you WIN!!!!");
+            endGame(1);
+
+        } else if (sum > 21) {
+            System.out.println("you bust you lose ):");
+            endGame(0);
+
+        }
+
     }
 
     public void dTurn() throws IOException {
