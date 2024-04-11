@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Blackjack.Game;
 
 import java.io.IOException;
@@ -15,8 +12,9 @@ public class Scan {
 
     public static Integer i;
     public static String str;
-
-
+   
+    //this method is for checking if the user ever inputs x or checkstats it either closes the program or shows them the statistics
+    //the ability to do this is told to the user when the game starts
     public static void checkForInputKey(String str) throws IOException {
         str = str.toUpperCase();
         switch (str) {
@@ -39,7 +37,7 @@ public class Scan {
         checkForInputKey(str);
         return str;
     }
-
+    //asks the user for the bet to be placed onto the table
     public static void Bet() throws IOException {
         if (Blackjack.tableAmount >= 50) {
             while (true) {
@@ -63,7 +61,9 @@ public class Scan {
             putMoneyInTable();
         }
     }
-
+    
+    //asks how much money from the bank they want to put onto the table,
+    //essentially the betting power the user has
     public static void putMoneyInTable() throws IOException { //this is the first scan of the program
         if (Blackjack.tableAmount < 50) {
             begForMoney();
@@ -91,6 +91,8 @@ public class Scan {
             }
         }
     }
+    
+    //after every round they can choose to put money back in and take money out
 
     public static void askToChangeTableAmount() throws IOException {
         boolean running = true;
@@ -114,6 +116,7 @@ public class Scan {
 
         }
     }
+    //this changes the table amount based on what they user has put
 
     public static void changeTableAmount() throws IOException {
         System.out.println("Input the amount of chips to place on the table.");
@@ -142,6 +145,8 @@ public class Scan {
             }
         }
     }
+    //this is an admin easter egg to test the program and by putting pleasegivemoney when you run out of money it gives you 50 to gamble
+    
 
     public static void begForMoney() throws IOException {
         while (Stats.money < 50) {

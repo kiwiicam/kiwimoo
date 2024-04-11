@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Blackjack.Game;
 
 /**
@@ -9,7 +5,8 @@ package Blackjack.Game;
  * @author xndmo
  */
 public class Print {
-
+//this class is used to print most things during the game, from our blackjack logo to printing the stats
+//it also prints out the special inputs in our program.
     public static void StartArt() {
         System.out.println();
         System.out.println();
@@ -52,8 +49,6 @@ public class Print {
         System.out.println();
     }
 
-
-
     public static void tableInfo() {
         System.out.println("+======================================+");
         System.out.println("You cannot play with more than 500 chips at this table.");
@@ -65,13 +60,12 @@ public class Print {
         System.out.println("How many chips do you wish to play with?");
         System.out.println("+======================================+");
     }
-    
-    public static void controls(){
+
+    public static void controls() {
         System.out.println("-----------------------");
-         System.out.println("Input \"x\" at any time to close program!");
+        System.out.println("Input \"x\" at any time to close program!");
         System.out.println("You will not be refunded your hand buy you will cash out your table chips");
         System.out.println("\"checkstats\" at any time to display your stats.");
-        System.out.println("\"cat\" at any time to display cat!");
         System.out.println("-----------------------");
     }
 }

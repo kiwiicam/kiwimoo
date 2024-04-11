@@ -19,7 +19,9 @@ public class Blackjack {
         this.stats = new Stats();
         this.Ycard = new ArrayList<>();
         this.Dcard = new ArrayList<>();
+        //2 lists to hold the cards for each player
         this.myCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
+        //2 card arrays to be randomly selected for drawing a card
         this.suitCard = new Card(null, new String[]{"Hearts", "Spades", "Clubs", "Diamonds"});
         this.suit = suitCard.suit();
         this.i = 0;
@@ -27,12 +29,14 @@ public class Blackjack {
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        //main logic of the game from starting it to playing it again
         Blackjack game = new Blackjack();
         game.bjGame();
         game.PlayAgain();
     }
 
     public void bjGame() throws IOException {
+        //all the main methods compiled into one game method to make it easier to manage
         Print.StatsDisplay();
         Print.StartArt();
         Print.controls();
@@ -43,14 +47,18 @@ public class Blackjack {
     }
 
     public void gameStart() throws IOException {
+        //starts the game off with 1 dealer card and 2 player cards like a real blackjack game
         Dhit();
         Hit();
         Hit();
     }
 
     public void Hit() {
+        //this function contains the main logic for receiving a card
+        //this line below the comment is bassicly "drawing" a card as it calls from the card class which calls from the rand class to select a card randomly
         Ycard.add(myCard.number());
         suit = suitCard.suit();
+        //then all this code below sorts through to find what type of card it is, whether it has special properties like an ace or a picture card
 
         if (null == Ycard.get(i)) {
             sum += Ycard.get(i);
@@ -59,7 +67,7 @@ public class Blackjack {
         } else {
             switch (Ycard.get(i)) {
                 case 0:
-                    prev = true;
+                    
                     if (sum + 11 <= 21) {
                         sum += 11;
                         System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
@@ -101,6 +109,7 @@ public class Blackjack {
     }
 
     public void Dhit() {
+        //this is the same as hit but for the dealer as to keep track of the dealers sum and cards
         Dcard.add(myCard.number());
         suit = suitCard.suit();
 
@@ -157,6 +166,7 @@ public class Blackjack {
     }
 
     public String pictureCheck() {
+        //this method is used to check if a 10 is drawn change it to a picture card
         int randIndex = rand.randPicture();
         if (randIndex == 3) {
             return null;
@@ -169,6 +179,8 @@ public class Blackjack {
     }
 
     public void Turn() throws IOException {
+        //this is the main turn function for the player and asks if they want to hit or stand and based of the players decisions and cards draw
+        //will decide if they win or not and has checks for this
         if (sum != 21) {
             FileEdit.increasePlays();
             while (true) {
@@ -204,6 +216,8 @@ public class Blackjack {
     }
 
     public void dTurn() throws IOException {
+        //simular as turn but for the dealer, but since the dealer goes last at the end of this method it compares scores to decide the 
+        //outcome if neither have busted or hit blackjack(21)
         while (Dsum < 17 && sum <= 21) {
             Dhit();
             if (Dsum >= 17 && Dsum < 21) {
@@ -231,6 +245,8 @@ public class Blackjack {
     }
 
     public void PlayAgain() throws FileNotFoundException, IOException {
+        //this method is called when the game has ended to update the stats and ask whether they would like another round
+        
         a = 0;
         i = 0;
         Ycard.clear();
@@ -260,7 +276,7 @@ public class Blackjack {
                 break;
         }
     }
-
+    //this next method is for updating the stats at the end of the game
     public void endGame(int result) throws IOException { //true for win
         int wonCoins = bet * 2;
         switch (result) {
@@ -286,6 +302,7 @@ public class Blackjack {
     }
 
     public static void terminate() {
+        //this is for when the player wants to quit, at any time if the player presses x it will allow them to 
         System.out.println("Program closed.");
         System.out.println("House always wins..");
         System.out.println("You will not be refunded any bet money!");

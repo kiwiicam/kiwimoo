@@ -7,7 +7,7 @@ import java.util.regex.*;
 public class FileEdit {
 
     public static final String statsFile = "resources/stats.txt";
-
+    //this first method is used to search the file to then be used for the statistics
     public static int searchFile(String valueToFind) throws FileNotFoundException { //this is used for the constructer to print stats
         String searchPattern = "\\b" + valueToFind + "\\b\\s+(\\d+)";
         int foundValue = -1;
@@ -37,7 +37,7 @@ public class FileEdit {
         }
         return foundValue;
     }
-
+    //this is used to increase the plays everytime the user plays a round
     public static void increasePlays() { //this was the first file write code i wrote and i reused it to make the updateStatsFile
         String searchPattern = "\\bplays\\b\\s+(\\d+)";
         int foundValue = -1;
@@ -78,6 +78,7 @@ public class FileEdit {
             System.err.println("Error editing the file." + e.getMessage());
         }
     }
+    //this updates the states and saves it all to the stats.txt file
 
     public static void updateStatsFile(String statToUpdate, int newVal) throws FileNotFoundException, IOException {
         String searchPattern = "\\b" + statToUpdate + "\\b\\s+(\\d+)";
@@ -127,7 +128,7 @@ public class FileEdit {
         }
         return -1;
     }
-    
+    //this is called when the games runs to show the user the stats
     public static void gameEndingUpdates() throws IOException {
         //there is no need to make it update plays as it updates 
         //everytime the game runs 

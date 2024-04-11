@@ -1,5 +1,5 @@
 package Blackjack.Game;
-
+//this is a small class but returns a card to be drawn from the main blackjack logic java class to then be used
 public class Card {
 
     private int[] cardNum;
