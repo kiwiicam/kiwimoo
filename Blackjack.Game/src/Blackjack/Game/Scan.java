@@ -1,4 +1,3 @@
-
 package Blackjack.Game;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ public class Scan {
 
     public static Integer i;
     public static String str;
-   
+
     //this method is for checking if the user ever inputs x or checkstats it either closes the program or shows them the statistics
     //the ability to do this is told to the user when the game starts
     public static void checkForInputKey(String str) throws IOException {
@@ -37,6 +36,7 @@ public class Scan {
         checkForInputKey(str);
         return str;
     }
+
     //asks the user for the bet to be placed onto the table
     public static void Bet() throws IOException {
         if (Blackjack.tableAmount >= 50) {
@@ -61,7 +61,7 @@ public class Scan {
             putMoneyInTable();
         }
     }
-    
+
     //asks how much money from the bank they want to put onto the table,
     //essentially the betting power the user has
     public static void putMoneyInTable() throws IOException { //this is the first scan of the program
@@ -81,9 +81,8 @@ public class Scan {
                         Blackjack.tableAmount = i;
                         Stats.money -= i;
                         break;
-                    }
-                    else{
-                        System.out.println("Please input a value between 50 and "+Math.min(Stats.money, 500)+".");
+                    } else {
+                        System.out.println("Please input a value between 50 and " + Math.min(Stats.money, 500) + ".");
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Please input an integer!");
@@ -91,9 +90,8 @@ public class Scan {
             }
         }
     }
-    
-    //after every round they can choose to put money back in and take money out
 
+    //after every round they can choose to put money back in and take money out
     public static void askToChangeTableAmount() throws IOException {
         boolean running = true;
         while (running) {
@@ -119,17 +117,17 @@ public class Scan {
     //this changes the table amount based on what they user has put
 
     public static void changeTableAmount() throws IOException {
+        Stats.money += Blackjack.tableAmount;
+        Blackjack.tableAmount = 0;
         System.out.println("Input the amount of chips to place on the table.");
         System.out.println("Minimum buy in is 50 chips. ");
         System.out.println("Max table amount is 500 chips");
         System.out.println("You currently have " + Stats.money + " chips.");
         while (true) {
             str = newInput();
-            Stats.money += Blackjack.tableAmount;
-            Blackjack.tableAmount = 0;
             try {
                 Blackjack.tableAmount = Integer.parseInt(str);
-                if (Blackjack.tableAmount >= 50 && Blackjack.tableAmount <= Stats.money && Blackjack.tableAmount <= 500) {
+                if (Blackjack.tableAmount >= 50 && Blackjack.tableAmount <= Math.min(500, Stats.money)) {
                     break;
                 } else {
                     System.out.print("Please input at least 50 chips and no more than ");
@@ -146,7 +144,6 @@ public class Scan {
         }
     }
     //this is an admin easter egg to test the program and by putting pleasegivemoney when you run out of money it gives you 50 to gamble
-    
 
     public static void begForMoney() throws IOException {
         while (Stats.money < 50) {
@@ -154,7 +151,7 @@ public class Scan {
             System.out.println("Maybe if you ask nicely?");
             System.out.println("type \"pleasegivemoney\"");
             str = newInput();
-            if (str.equals("pleasegivemoney")) {
+            if (str.equals("PLEASEGIVEMONEY")) {
                 Stats.money = 50;
             }
         }
