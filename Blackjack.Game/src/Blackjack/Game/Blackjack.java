@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Blackjack {
-
+    public boolean Dprev = false;
     public boolean prev = false;
     Stats stats; //DO NOT DELETE THIS
     public static int tableAmount, bet;
@@ -15,10 +15,11 @@ public class Blackjack {
     private final Card myCard, suitCard;
 
     public Blackjack() throws FileNotFoundException {
+        
         this.stats = new Stats();
         this.Ycard = new ArrayList<>();
         this.Dcard = new ArrayList<>();
-        this.myCard = new Card(new int[]{0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7}, null);
+        this.myCard = new Card(new int[]{0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10}, null);
         this.suitCard = new Card(null, new String[]{"Hearts", "Spades", "Clubs", "Diamonds"});
         this.suit = suitCard.suit();
         this.i = 0;
@@ -58,6 +59,7 @@ public class Blackjack {
         } else {
             switch (Ycard.get(i)) {
                 case 0:
+                    prev = true;
                     if (sum + 11 <= 21) {
                         sum += 11;
                         System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
@@ -66,7 +68,6 @@ public class Blackjack {
                         System.out.println("Your card is an ace of " + suit + " which brings your total to " + sum);
                     }
                     i++;
-                    prev = true;
                     break;
                 case 10:
                     String pictureCard = pictureCheck();
@@ -85,10 +86,11 @@ public class Blackjack {
                 default:
                     sum += Ycard.get(i);
                     if (prev && sum > 21 && Ycard.contains(0)) {
-                        sum -= Ycard.get(i);
-                        sum+=1;
+                        sum -= 10;                       
                         System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum + " since your previous card was an ace!");
                         prev = false;
+                        i++;
+                        break;
                     } else {
                         System.out.println("Your card is a " + Ycard.get(i) + " of " + suit + " which brings your total to " + sum);
                         i++;
@@ -102,34 +104,55 @@ public class Blackjack {
         Dcard.add(myCard.number());
         suit = suitCard.suit();
 
-        if (Dcard.get(a) == 0) {
-            if (Dsum + 11 > 21) {
-                Dsum += 1;
-                System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
-                a++;
-            } else if (Dsum + 11 <= 21) {
-                Dsum += 11;
-                System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
-                a++;
-            }
-        } else if (Dcard.get(a) == 10) {
-            String pictureCard = pictureCheck();
-            if (pictureCard != null) {
-                Dsum += Dcard.get(a);
-                System.out.println("Dealers card is a " + pictureCard + " of " + suit + " which brings their total to " + Dsum);
-                a++;
-
-            } else {
-                Dsum += Dcard.get(a);
-                System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
-                a++;
-            }
-
-        } else {
+        if (null == Dcard.get(a)) {
 
             Dsum += Dcard.get(a);
             System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
             a++;
+        } else {
+            switch (Dcard.get(a)) {
+                case 0:
+                    Dprev = true;
+                    if (Dsum + 11 > 21) {
+                        Dsum += 1;
+                        System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
+                        a++;
+                    } else if (Dsum + 11 <= 21) {
+                        Dsum += 11;
+                        System.out.println("Dealers card is an ace of " + suit + " which brings their total to " + Dsum);
+                        a++;
+                    }
+                    break;
+                case 10:
+                    String pictureCard = pictureCheck();
+                    if (pictureCard != null) {
+                        Dsum += Dcard.get(a);
+                        System.out.println("Dealers card is a " + pictureCard + " of " + suit + " which brings their total to " + Dsum);
+                        a++;
+                        Dprev = false;
+                    } else {
+                        Dsum += Dcard.get(a);
+                        System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
+                        a++;
+                        Dprev = false;
+                    }
+                    break;
+                default:
+                    Dsum += Dcard.get(a);
+                    if (Dprev && Dsum > 21 && Dcard.contains(0)) {
+                        Dsum -= 10;                        
+                        System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum + " since your previous card was an ace!");
+                        Dprev = false;
+                        a++;
+                        break;
+                        } 
+                    else {
+                        System.out.println("Dealers card is a " + Dcard.get(a) + " of " + suit + " which brings their total to " + Dsum);
+                        a++;
+                        Dprev = false;
+                        break;
+                    }
+            }
         }
     }
 

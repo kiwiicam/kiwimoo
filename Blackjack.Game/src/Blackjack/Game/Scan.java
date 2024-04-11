@@ -16,17 +16,6 @@ public class Scan {
     public static Integer i;
     public static String str;
 
-    public static void checkForX(String str) throws IOException {
-        if (str.toUpperCase().equals("X")) {
-            Blackjack.terminate();
-        }
-    }
-
-    public static void checkForCat(String str) throws IOException {
-        if (str.toUpperCase().equals("CAT")) {
-            Print.cat();
-        }
-    }
 
     public static void checkForInputKey(String str) throws IOException {
         str = str.toUpperCase();
@@ -34,9 +23,7 @@ public class Scan {
             case "X":
                 Blackjack.terminate();
                 break;
-            case "CAT":
-                Print.cat();
-                break;
+
             case "CHECKSTATS":
                 Print.StatsDisplay();
                 break;
@@ -138,8 +125,8 @@ public class Scan {
             Stats.money += Blackjack.tableAmount;
             Blackjack.tableAmount = 0;
             try {
+                Blackjack.tableAmount = Integer.parseInt(str);
                 if (Blackjack.tableAmount >= 50 && Blackjack.tableAmount <= Stats.money && Blackjack.tableAmount <= 500) {
-                    Blackjack.tableAmount = Integer.parseInt(str);
                     break;
                 } else {
                     System.out.print("Please input at least 50 chips and no more than ");
